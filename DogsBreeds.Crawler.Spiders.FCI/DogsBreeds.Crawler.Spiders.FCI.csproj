@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+    <AssemblyName>WeAreGeekers.DogsBreeds.Crawler.Spiders.FCI</AssemblyName>
+    <RootNamespace>WeAreGeekers.DogsBreeds.Crawler.Spiders.FCI</RootNamespace>
+    <Authors>Fabrizio Pairone</Authors>
+    <Company>WeAreGeekers</Company>
+    <Version>1.0.0</Version>
+    <Description>Spider of DogsBreeds.Crawler project that extract data from FCI</Description>
+    <RepositoryType>git</RepositoryType>
+    <Copyright>WeAreGeekers</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+    <RepositoryUrl>https://github.com/WeAreGeekers/DogsBreeds-Crawler-Spiders-FCI</RepositoryUrl>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Responses\Breed.cs~RF80d3d99d.TMP" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.42" />
+  </ItemGroup>
+
+</Project>
