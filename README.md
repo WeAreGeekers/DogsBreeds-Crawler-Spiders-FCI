@@ -9,7 +9,7 @@ In particular this spider extract data through web-scraping from [FCI (Federatio
 
 ## Installation
 
-You can use this spider separate from the parent crawler installing the NuGet package.
+You can use this spider separate from the parent crawler installing the [NuGet package](https://www.nuget.org/packages/WeAreGeekers.DogsBreeds.Crawler.Spiders.FCI/).
 
 ```
 PM> Install-Package WeAreGeekers.DogsBreeds.Crawler.Spiders.FCI
