@@ -10,6 +10,11 @@ namespace WeAreGeekers.DogsBreeds.Crawler.Spiders.FCI.Responses
     {
 
         /// <summary>
+        /// Ref to breed group
+        /// </summary>
+        public BreedGroup Group { get; set; }
+
+        /// <summary>
         /// Ref to breed section
         /// </summary>
         public BreedSection Section { get; set; }
@@ -90,7 +95,7 @@ namespace WeAreGeekers.DogsBreeds.Crawler.Spiders.FCI.Responses
         public string[] DevelopmentCountries { get; set; }
 
         /// <summary>
-        /// Define if the section is 'cacib' or not (Can be false and true in varieties of subsection)
+        /// Define if the breed is 'cacib' or not (Can be false and true in varieties or subvarieties)
         /// </summary>
         public bool Cacib { get; set; }
 
