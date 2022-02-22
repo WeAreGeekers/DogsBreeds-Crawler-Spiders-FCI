@@ -10,6 +10,11 @@ namespace WeAreGeekers.DogsBreeds.Crawler.Spiders.FCI.Responses
     {
 
         /// <summary>
+        /// Ref to breed group
+        /// </summary>
+        public BreedGroup Group { get; set; }
+
+        /// <summary>
         /// Ref to breed section
         /// </summary>
         public BreedSection Section { get; set; }

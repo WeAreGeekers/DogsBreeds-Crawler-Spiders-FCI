@@ -426,6 +426,9 @@ namespace WeAreGeekers.DogsBreeds.Crawler.Spiders.FCI
             // Init var
             Breed breed = new Breed();
 
+            // Get groups
+            List<BreedGroup> listBreedGroups = GetBreedGroups();
+
             // Get sections
             List<BreedSection> listBreedSections = GetBreedSections();
 
@@ -441,6 +444,12 @@ namespace WeAreGeekers.DogsBreeds.Crawler.Spiders.FCI
 
             // Get official name
             breed.OfficialName = doc.DocumentNode.Descendants("h2").FirstOrDefault(w => w.HasClass("nom")).Descendants("span").ToList()[0].InnerText.Trim();
+
+            // Get group
+            string groupIndex = doc.DocumentNode.Descendants("span").ToList().Find(f => f.InnerText == "Group :")?.ParentNode.Element("a")?.InnerText;
+            groupIndex = groupIndex.Replace("n°", string.Empty);
+            groupIndex = groupIndex.Substring(0, groupIndex.IndexOf(' ')).Trim();
+            breed.Group = listBreedGroups.Find(f => f.Index == int.Parse(groupIndex));
 
             // Get translations
             breed.OfficialNameTranslations = doc.DocumentNode.Descendants("table").FirstOrDefault(w => w.HasClass("racesgridview"))
