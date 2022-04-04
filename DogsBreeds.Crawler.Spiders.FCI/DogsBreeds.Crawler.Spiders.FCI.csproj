@@ -8,7 +8,7 @@
     <RootNamespace>WeAreGeekers.DogsBreeds.Crawler.Spiders.FCI</RootNamespace>
     <Authors>Fabrizio Pairone</Authors>
     <Company>WeAreGeekers</Company>
-    <Version>1.0.1</Version>
+    <Version>1.0.2</Version>
     <Description>Spider of DogsBreeds.Crawler project that extract data from FCI</Description>
     <RepositoryType>git</RepositoryType>
     <Copyright>WeAreGeekers</Copyright>

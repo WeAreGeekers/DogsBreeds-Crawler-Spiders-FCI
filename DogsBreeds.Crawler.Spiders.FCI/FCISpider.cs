@@ -242,6 +242,9 @@ namespace WeAreGeekers.DogsBreeds.Crawler.Spiders.FCI
                 case "español":
                     return "es";
 
+                case "":
+                    return "ND";
+
                 default:
                     throw new NotImplementedException(
                         string.Format(
@@ -486,126 +489,129 @@ namespace WeAreGeekers.DogsBreeds.Crawler.Spiders.FCI
                     string entryName = trInfo.Elements("td").ToList()[0].Element("span").InnerText.Trim();
                     string value = trInfo.Elements("td").ToList()[1].Element("span").InnerText.Trim();
 
-                    switch (entryName)
+                    if (!string.IsNullOrEmpty(value) && !string.IsNullOrEmpty(value))
                     {
-                        // Get section
-                        case "Section":
-                            breed.Section = listBreedSections.Find(f => f.OfficialName == value);
-                            break;
+                        switch (entryName)
+                        {
+                            // Get section
+                            case "Section":
+                                breed.Section = listBreedSections.Find(f => f.OfficialName == value);
+                                break;
 
-                        // Get sub section
-                        case "Subsection":
-                            breed.SubSection = breed.Section.SubSections.Find(f => f.OfficialName == value);
-                            break;
+                            // Get sub section
+                            case "Subsection":
+                                breed.SubSection = breed.Section.SubSections.Find(f => f.OfficialName == value);
+                                break;
 
-                        // Get date of acceptance on provisional basis by the FCI
-                        case "Date of acceptance on a provisional basis by the FCI":
-                            breed.DateOfAcceptanceOnProvisionalBasisByTheFci = DateTime.ParseExact(value, "M/d/yyyy", CultureInfo.InvariantCulture);
-                            break;
+                            // Get date of acceptance on provisional basis by the FCI
+                            case "Date of acceptance on a provisional basis by the FCI":
+                                breed.DateOfAcceptanceOnProvisionalBasisByTheFci = DateTime.ParseExact(value, "M/d/yyyy", CultureInfo.InvariantCulture);
+                                break;
 
-                        // Get official name language
-                        case "Official authentic language":
-                            breed.IsoOfficialLang = GetIsoCodeLang(value);
-                            break;
+                            // Get official name language
+                            case "Official authentic language":
+                                breed.IsoOfficialLang = GetIsoCodeLang(value);
+                                break;
 
-                        // Get date official publication
-                        case "Date of publication of the official valid standard":
-                            breed.DateOfPubblicationOfTheOfficialValidStandard = DateTime.ParseExact(value, "M/d/yyyy", CultureInfo.InvariantCulture);
-                            break;
+                            // Get date official publication
+                            case "Date of publication of the official valid standard":
+                                breed.DateOfPubblicationOfTheOfficialValidStandard = DateTime.ParseExact(value, "M/d/yyyy", CultureInfo.InvariantCulture);
+                                break;
 
-                        // Get status
-                        case "Breed status":
-                            switch (value)
-                            {
-                                // Provisional
-                                case "Recognized on a provisional basis":
-                                    breed.Status = BreedStatus.Provisional;
-                                    break;
+                            // Get status
+                            case "Breed status":
+                                switch (value)
+                                {
+                                    // Provisional
+                                    case "Recognized on a provisional basis":
+                                        breed.Status = BreedStatus.Provisional;
+                                        break;
 
-                                // Definitive
-                                case "Recognized on a definitive basis":
-                                    breed.Status = BreedStatus.Definitive;
-                                    break;
+                                    // Definitive
+                                    case "Recognized on a definitive basis":
+                                        breed.Status = BreedStatus.Definitive;
+                                        break;
 
-                                // Not implemented
-                                default:
-                                    throw new NotImplementedException(
-                                        string.Format(
-                                            "Warning! entry of breed status equals to '{0}' not supported yet.",
-                                            value
-                                        )
-                                    );
-                            }
-                            break;
+                                    // Not implemented
+                                    default:
+                                        throw new NotImplementedException(
+                                            string.Format(
+                                                "Warning! entry of breed status equals to '{0}' not supported yet.",
+                                                value
+                                            )
+                                        );
+                                }
+                                break;
 
-                        // Get origin country
-                        case "Country of origin of the breed":
-                            breed.OriginCountries = value.Split(',').Where(w => !string.IsNullOrEmpty(w) && !string.IsNullOrEmpty(w.Trim())).ToArray();
-                            break;
+                            // Get origin country
+                            case "Country of origin of the breed":
+                                breed.OriginCountries = value.Split(',').Where(w => !string.IsNullOrEmpty(w) && !string.IsNullOrEmpty(w.Trim())).ToArray();
+                                break;
 
-                        // Get working trial
-                        case "Working trial":
-                            switch (value)
-                            {
-                                // Not subject 
-                                case "Not subject to a working trial according to the FCI breeds nomenclature":
-                                    breed.WorkingTrial = BreedWorkingTrial.NotSubject;
-                                    break;
+                            // Get working trial
+                            case "Working trial":
+                                switch (value)
+                                {
+                                    // Not subject 
+                                    case "Not subject to a working trial according to the FCI breeds nomenclature":
+                                        breed.WorkingTrial = BreedWorkingTrial.NotSubject;
+                                        break;
 
-                                // Subject 
-                                case "Subject to a working trial according to the FCI Breeds Nomenclature":
-                                    breed.WorkingTrial = BreedWorkingTrial.Subject;
-                                    break;
+                                    // Subject 
+                                    case "Subject to a working trial according to the FCI Breeds Nomenclature":
+                                        breed.WorkingTrial = BreedWorkingTrial.Subject;
+                                        break;
 
-                                // Subject limited on country applied
-                                case "Subject to a working trial only for the countries having applied for it":
-                                    breed.WorkingTrial = BreedWorkingTrial.SubjectLimitedOnCountryApplied;
-                                    break;
+                                    // Subject limited on country applied
+                                    case "Subject to a working trial only for the countries having applied for it":
+                                        breed.WorkingTrial = BreedWorkingTrial.SubjectLimitedOnCountryApplied;
+                                        break;
 
-                                // Subject on some countries
-                                case "Subject to a working trial for some countries":
-                                    breed.WorkingTrial = BreedWorkingTrial.SubjectOnSomeCountry;
-                                    break;
+                                    // Subject on some countries
+                                    case "Subject to a working trial for some countries":
+                                        breed.WorkingTrial = BreedWorkingTrial.SubjectOnSomeCountry;
+                                        break;
 
-                                // Subject to nordic countries
-                                case "Subject to a working trial only for the Nordic countries (Finland, Norway, Sweden)":
-                                    breed.WorkingTrial = BreedWorkingTrial.SubjectOnNordicCountries;
-                                    break;
+                                    // Subject to nordic countries
+                                    case "Subject to a working trial only for the Nordic countries (Finland, Norway, Sweden)":
+                                        breed.WorkingTrial = BreedWorkingTrial.SubjectOnNordicCountries;
+                                        break;
 
-                                // Not implemented
-                                default:
-                                    throw new NotImplementedException(
-                                        string.Format(
-                                            "Warning! entry of breed working trial equals to '{0}' not supported yet.",
-                                            value
-                                        )
-                                    );
-                            }
-                            break;
+                                    // Not implemented
+                                    default:
+                                        throw new NotImplementedException(
+                                            string.Format(
+                                                "Warning! entry of breed working trial equals to '{0}' not supported yet.",
+                                                value
+                                            )
+                                        );
+                                }
+                                break;
 
-                        // Get patronage country
-                        case "Country of patronage of the breed":
-                            breed.PatronageCountries = value.Split(',').Where(w => !string.IsNullOrEmpty(w) && !string.IsNullOrEmpty(w.Trim())).ToArray();
-                            break;
+                            // Get patronage country
+                            case "Country of patronage of the breed":
+                                breed.PatronageCountries = value.Split(',').Where(w => !string.IsNullOrEmpty(w) && !string.IsNullOrEmpty(w.Trim())).ToArray();
+                                break;
 
-                        // Get date acceptance
-                        case "Date of acceptance on a definitive basis by the FCI":                            
-                            breed.DateOfAcceptanceOnDefinitiveBasisByTheFci = DateTime.ParseExact(value, "M/d/yyyy", CultureInfo.InvariantCulture);
-                            break;
-                        
-                        // Get development country
-                        case "Country of development of the breed":
-                            breed.DevelopmentCountries = value.Split(',').Where(w => !string.IsNullOrEmpty(w) && !string.IsNullOrEmpty(w.Trim())).ToArray();
-                            break;
+                            // Get date acceptance
+                            case "Date of acceptance on a definitive basis by the FCI":
+                                breed.DateOfAcceptanceOnDefinitiveBasisByTheFci = DateTime.ParseExact(value, "M/d/yyyy", CultureInfo.InvariantCulture);
+                                break;
 
-                        // Not implemented
-                        default:
-                            throw new NotImplementedException(
-                                string.Format(
-                                    "Warning! entry of info table equals to '{0}' not supported yet.",
-                                    entryName
-                                )
-                            );
+                            // Get development country
+                            case "Country of development of the breed":
+                                breed.DevelopmentCountries = value.Split(',').Where(w => !string.IsNullOrEmpty(w) && !string.IsNullOrEmpty(w.Trim())).ToArray();
+                                break;
+
+                            // Not implemented
+                            default:
+                                throw new NotImplementedException(
+                                    string.Format(
+                                        "Warning! entry of info table equals to '{0}' not supported yet.",
+                                        entryName
+                                    )
+                                );
+                        }
                     }
                 });
 
